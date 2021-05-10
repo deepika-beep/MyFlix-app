@@ -1,4 +1,5 @@
 const http = require("http");
+fs = require("fs");
 url = require("url");
 
 http
@@ -8,7 +9,7 @@ http
       filePath = "";
     fs.appendFile(
       "log.txt",
-      "Url:" + addr + "\ntimestamp" + newDate() + "\n",
+      "Url:" + addr + "\ntimestamp:" + new Date() + "\n",
       err => {
         if (err) {
           console.log(err);
@@ -17,11 +18,19 @@ http
         }
       }
     );
-    if (q.pathName.includes("documentation")) {
+    if (q.pathname.includes("documentation")) {
       filePath = __dirName + "/documentation.html";
     } else {
       filePath = "index.html";
     }
+    fs.readFile(filePath, (err, data) => {
+      if (err) {
+        throw err;
+      }
+      response.writeHead(200, { "Content-type": "text/html" });
+      response.write(data);
+      response.end();
+    });
   })
   .listen(8080);
 
