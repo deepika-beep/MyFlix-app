@@ -1,6 +1,6 @@
 const http = require("http");
-fs = require("fs");
-url = require("url");
+const fs = require("fs");
+const url = require("url");
 
 http
   .createServer((request, response) => {
@@ -19,7 +19,7 @@ http
       }
     );
     if (q.pathname.includes("documentation")) {
-      filePath = __dirName + "/documentation.html";
+      filePath = __dirname + "/documentation.html";
     } else {
       filePath = "index.html";
     }
