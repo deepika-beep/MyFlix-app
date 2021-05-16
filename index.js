@@ -61,7 +61,7 @@ app.get("/", (req, res) => {
   res.send("Welcome to my App");
 });
 
-//listen for requests
+//listen for the requests
 app.listen(8080, () => {
   console.log("Your App is listening to port 8080");
 });
