@@ -44,16 +44,15 @@ let topMovies = [
   }
 ];
 
-//Use express.static to serve “documentation.html” file from the public folder
 app.use(express.static("public"));
-//morgan a preexisting library as your logging middleware, would be equipped to log any and all information that you could want about a request.
+
 app.use(morgan("common"));
-//created an Express GET route located at the endpoint “/movies” that returns a JSON object containing data about Favorite 10 movies.
+
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something Broke");
 });
-//Get requests
+
 app.get("/movies", (req, res) => {
   res.json(topMovies);
 });
@@ -61,7 +60,9 @@ app.get("/", (req, res) => {
   res.send("Welcome to my App");
 });
 
-//listen for the requests
+app.get("/documentation", (req, res) => {
+  res.sendFile("public/documentation.html", { root: __dirname });
+});
 app.listen(8080, () => {
   console.log("Your App is listening to port 8080");
 });
