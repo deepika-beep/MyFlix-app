@@ -53,8 +53,51 @@ app.use((err, req, res, next) => {
   res.status(500).send("Something Broke");
 });
 
+//GET request to display  data about all movies
 app.get("/movies", (req, res) => {
-  res.json(topMovies);
+  res.status(201).json(topMovies);
+});
+//GET request to display a movie by title
+app.get("/movies/:title", (req, res) => {
+  res.send("Successful GET displaying a movie.");
+});
+//GET request to display a genre (by name)
+app.get("/genre/:title/:name", (req, res) => {
+  res.send("Successful GET request returning GENRE.");
+});
+//GET request to display a Director (by name)
+app.get("/director/:name", (req, res) => {
+  res.json(
+    topMovies.find(director => {
+      return director.name == req.params.name;
+    })
+  );
+});
+//POST request to create new user
+app.post("/users", (req, res) => {
+  res.send("Successful POST request returning registration of a user.");
+});
+//PUT request updating user info
+app.put("/users/:username", (req, res) => {
+  res.send("Successful PUT request returning the user info is updated.");
+});
+//POST request adding user's favorite movies
+app.post("/users/:username/Favorites", (req, res) => {
+  res.send(
+    "Successful POST request returning the list of user's favorite movies that was added."
+  );
+});
+//DELETE request for deleting a movie
+app.delete("/users/:username/Favorites/:movie", (req, res) => {
+  res.send(
+    "Successful DELETE request returning the message movie is deleted from user's list of favorites."
+  );
+});
+//DELETE request for deregistration
+app.delete("/users/:username", (req, res) => {
+  res.send(
+    "Successful DELETE request returning the message user is Deregistered successfully."
+  );
 });
 app.get("/", (req, res) => {
   res.send("Welcome to my App");
