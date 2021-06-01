@@ -89,7 +89,8 @@ app.post("/users", (req, res) => {
           Username: req.body.Username,
           Password: req.body.Password,
           Birth_Date: req.body.Birth_Date,
-          Email: req.body.Email
+          Email: req.body.Email,
+          FavoriteMovies: req.body.FavoriteMovies
         })
           .then(user => {
             res.status(201).json(user);
