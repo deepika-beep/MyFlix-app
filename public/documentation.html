@@ -70,7 +70,7 @@
         <tr>
           <th scope="row">2</th>
           <td>Get data about a single movie by title</td>
-          <td>/movies/[title]</td>
+          <td>/movies/[Title]</td>
           <td>GET</td>
           <td>None</td>
           <td>
@@ -81,8 +81,8 @@
         <tr>
           <th scope="row">3</th>
           <td>Return data about a genre by name/title</td>
+          <td>/Genre/[title]/[Name]</td>
           <td>GET</td>
-          <td>/genre/[title]/[name]</td>
           <td>None</td>
           <td>
             A Json object holding data about a genre of a movie.
@@ -91,8 +91,8 @@
         <tr>
           <th scope="row">4</th>
           <td>Return data about a director by name</td>
+          <td>/Director/[Name]</td>
           <td>GET</td>
-          <td>/director/[name]</td>
           <td>None</td>
           <td>
             A Json object holding data about a director containing bio, birth
@@ -102,27 +102,57 @@
         <tr>
           <th scope="row">5</th>
           <td>Register a user</td>
-          <td>POST</td>
           <td>/users</td>
-          <td>A Json object holding data about users to register</td>
+          <td>POST</td>
           <td>
-            A Json object holding data about a user that was added.
+            A Json object holding data about users to register.<br />
+            Username: req.body.Username,<br />
+            Password: req.body.Password ,<br />
+            Birth_Date: req.body.Birth_Date,<br />
+            Email: req.body.Email
+          </td>
+          <td>
+            A Json object holding data about a user that was added and returned
+            following format.<br />
+            ID: Integer <br />
+            Username: String <br />
+            Password: String <br />
+            Email: String <br />
+            Birthday: Date
           </td>
         </tr>
         <tr>
           <th scope="row">6</th>
           <td>Update the user info (username)</td>
+          <td>/users/[Username]</td>
           <td>PUT</td>
-          <td>/users/[username]</td>
-          <td>None</td>
-          <td>A text message indicating the user info is updated.</td>
+          <td>
+            Json object holding data to be updated.<br />
+            Username: req.body.Username,<br />
+            Password: req.body.Password, <br />
+            Birth_Date: req.body.Birth_Date,<br />
+            Email: req.body.Email
+          </td>
+          <td>
+            A text message indicating the user info is updated and returns Json
+            in following format.<br />
+            Username: String (required)<br />
+            Password: String (required)<br />
+            Birth_Date: Date,<br />
+            Email: String (required)
+          </td>
         </tr>
         <tr>
           <th scope="row">7</th>
           <td>Add a movie to the list of user's favorites</td>
+          <td>/users/[Username]/Favorites/:MovieID</td>
           <td>POST</td>
-          <td>/users/[username]/Favorites</td>
-          <td>A Json object holding data about user's favorite movies.</td>
+          <td>
+            A Json object holding data about user's favorite movies in the
+            following format.<br />
+            Username: req.params.Username<br />
+            FavoriteMovies: req.params.MovieID<br />
+          </td>
           <td>
             A Json object holding data about list of user's favorites movies
             that was added.
@@ -131,8 +161,8 @@
         <tr>
           <th scope="row">8</th>
           <td>Remove a movie from user's list of favorites</td>
+          <td>/users/[Username]/Favorites/[Movie]</td>
           <td>DELETE</td>
-          <td>/users/[username]/Favorites/[movie]</td>
           <td>NONE</td>
           <td>
             A text message indicating whether a movie is deleted from user's
@@ -142,8 +172,8 @@
         <tr>
           <th scope="row">9</th>
           <td>Deregister the user</td>
-          <td>DELETE</td>
           <td>/users/[username]</td>
+          <td>DELETE</td>
           <td>NONE</td>
           <td>
             A text message indicating whether a user is Deregistered

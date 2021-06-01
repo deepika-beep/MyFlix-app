@@ -1,0 +1,4 @@
+{"_id":{"$oid":"60aff218fecd62d3ab83600e"},"Username":"Sunny88","Password":"sunny","Birth_Date":"1985-02-01","FavoriteMovies":[{"$oid":"60afec7ffecd62d3ab836004"},{"$oid":"60afecbdfecd62d3ab836005"}]}
+{"_id":{"$oid":"60aff2ebfecd62d3ab83600f"},"Username":"Lavia","Password":"lavia","Birth_Date":"1994-08-10","FavoriteMovies":[{"$oid":"60afee1cfecd62d3ab83600d"},{"$oid":"60afedf2fecd62d3ab83600c"}]}
+{"_id":{"$oid":"60affa5cfecd62d3ab836010"},"Username":"Benjamin56","Password":"benjamin","Birth_Date":"1975-12-01","FavoriteMovies":[{"$oid":"60afedcffecd62d3ab83600b"},{"$oid":"60afedaefecd62d3ab83600a"}]}
+{"_id":{"$oid":"60affafdfecd62d3ab836011"},"Username":"Keith87","Password":"keith","Birth_Date":"1981-11-18","FavoriteMovies":[{"$oid":"60afed8cfecd62d3ab836009"},{"$oid":"60afed41fecd62d3ab836007"},{"$oid":"60afece3fecd62d3ab836006"}]}
