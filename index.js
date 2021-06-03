@@ -170,7 +170,7 @@ app.post("/users/:Username/Favorites/:MovieID", (req, res) => {
   );
 });
 //DELETE request for deleting a movie
-app.delete("/users/:Username/Favorites/Movie", (req, res) => {
+app.delete("/users/:Username/Favorites/:MovieID", (req, res) => {
   Users.findOneandRemove({
     FavoriteMovies: req.params.FavoriteMovies
   }).then(favoriteMovies => {
