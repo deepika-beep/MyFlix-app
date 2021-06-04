@@ -3,8 +3,7 @@ const Models = require("./model.js");
 
 const Movies = Models.Movie;
 const Users = Models.User;
-const Directors = Models.Director;
-const Genres = Models.Genre;
+
 const Actors = Models.Actor;
 
 mongoose.connect("mongodb://localhost:27017/myFlixDB", {
@@ -45,10 +44,10 @@ app.get("/movies/:Title", (req, res) => {
 });
 
 //GET request to display a genre (by name)
-app.get("/Genre/:Name", (req, res) => {
-  Genres.findOne({ Name: req.params.Name })
-    .then(genre => {
-      res.json(genre);
+app.get("/movies/Genre/:Name", (req, res) => {
+  Movies.findOne({ "Genre.Name": req.params.Name })
+    .then(movies => {
+      res.json(movies);
     })
     .catch(err => {
       console.error(err);
@@ -56,8 +55,8 @@ app.get("/Genre/:Name", (req, res) => {
     });
 });
 //GET request to display a Director (by name)
-app.get("/Director/:Name", (req, res) => {
-  Directors.findOne({ Name: req.params.Name })
+app.get("/movies/Director/:Name", (req, res) => {
+  Movies.findOne({ "Director.Name": req.params.Name })
     .then(director => {
       res.json(director);
     })
@@ -118,7 +117,7 @@ app.get("/users", (req, res) => {
     });
 });
 // GET request to get info on specific user by Username
-app.get("users/:Username", (req, res) => {
+app.get("/users/:Username", (req, res) => {
   Users.findOne({ Username: req.params.Username })
     .then(user => {
       res.json(user);
@@ -171,13 +170,13 @@ app.post("/users/:Username/Favorites/:MovieID", (req, res) => {
 });
 //DELETE request for deleting a movie
 app.delete("/users/:Username/Favorites/:MovieID", (req, res) => {
-  Users.findOneandRemove({
-    FavoriteMovies: req.params.FavoriteMovies
+  Users.findOneAndRemove({
+    FavoriteMovies: req.params.MovieID
   }).then(favoriteMovies => {
     if (!favoriteMovies) {
-      res.status(400).send(req.params.favoriteMovies + "was not found");
+      res.status(400).send(req.params.MovieID + ":was not found");
     } else {
-      res.status(200).send(req.params.favoriteMovies + "is deleted");
+      res.status(200).send(req.params.MovieID + ":is deleted");
     }
   });
 });
