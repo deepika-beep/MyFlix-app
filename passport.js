@@ -1,10 +1,11 @@
-const passport = require("passport");
-const LocalStrategy = require("passport-local").strategy;
-const Models = require("./model.js");
-const passportJWT = require("passport-jwt");
-let Users = Models.User;
-let JWTStrategy = passportJWT.strategy;
-let ExtractJWT = passportJWT.ExtractJWT;
+const passport = require("passport"),
+  LocalStrategy = require("passport-local").Strategy,
+  Models = require("./model.js"),
+  passportJWT = require("passport-jwt");
+let Users = Models.User,
+  JWTStrategy = passportJWT.Strategy,
+  ExtractJWT = passportJWT.ExtractJWT;
+//added a Passport middleware to handle user registration:
 passport.use(
   new LocalStrategy(
     {
@@ -33,7 +34,7 @@ passport.use(
 passport.use(
   new JWTStrategy(
     {
-      jwtFromRequest: ExtractJWT.fromAuthHeaderASBearerToken(),
+      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
       secretOrKey: "your_jwt_secret"
     },
     (jwtPayload, callback) => {
