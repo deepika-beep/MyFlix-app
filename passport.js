@@ -4,7 +4,8 @@ const passport = require("passport"),
   passportJWT = require("passport-jwt");
 let Users = Models.User,
   JWTStrategy = passportJWT.Strategy,
-  ExtractJWT = passportJWT.ExtractJWT;
+  ExtractJWT = passportJWT.ExtractJwt;
+
 //added a Passport middleware to handle user registration:
 passport.use(
   new LocalStrategy(
