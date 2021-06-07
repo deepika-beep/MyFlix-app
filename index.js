@@ -15,7 +15,10 @@ const express = require("express");
 const morgan = require("morgan");
 const app = express();
 app.use(bodyParser.json());
-
+//app ensures that Express is available in  “auth.js” file as well.
+let auth = require("./auth.js")(app);
+const passport = require("passport");
+require("./passport");
 app.use(express.static("public"));
 
 app.use(morgan("common"));
@@ -26,11 +29,16 @@ app.use((err, req, res, next) => {
 });
 
 //GET request to display  data about all movies
-app.get("/movies", (req, res) => {
-  Movies.find().then(movies => {
-    res.status(201).json(movies);
-  });
-});
+//apply the JWT authentication strategyfor registered users
+app.get(
+  "/movies",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Movies.find().then(movies => {
+      res.status(201).json(movies);
+    });
+  }
+);
 //GET request to display a movie by title
 app.get("/movies/:Title", (req, res) => {
   Movies.findOne({ Title: req.params.Title })
