@@ -10,6 +10,9 @@ mongoose.connect("mongodb://localhost:27017/myFlixDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
+
+const cors = require("cors");
+app.use(cors());
 const bodyParser = require("body-parser");
 const express = require("express");
 const morgan = require("morgan");
@@ -104,8 +107,28 @@ app.get(
 //POST request to create new user
 app.post(
   "/users",
-  passport.authenticate("jwt", { session: false }),
+  // passport.authenticate("jwt", { session: false }),
+
+  [
+    check("Username", "Username is required").isLength({ min: 5 }),
+    check(
+      "Username",
+      "Username contains non alphanumeric is not allowed"
+    ).isAlphanumeric(),
+    check("Password", "Password is required")
+      .not()
+      .isEmpty(),
+    check("Email", "Email does not appear to be valid").isEmail()
+  ],
   (req, res) => {
+    //// Validation logic here for request
+
+    let errors = validationRequest(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+    let hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOne({ Username: req.body.Username })
       .then(user => {
         if (user) {
@@ -255,6 +278,9 @@ app.get("/", (req, res) => {
 app.get("/documentation", (req, res) => {
   res.sendFile("public/documentation.html", { root: __dirname });
 });
-app.listen(8080, () => {
-  console.log("Your App is listening to port 8080");
+
+//Hosting the app via PaaS(Heroku)
+const port = process.env.port || 8080;
+app.listen(port, "0.0.0.0", () => {
+  console.log("Listening on Port" + port);
 });
