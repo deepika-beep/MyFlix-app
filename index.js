@@ -1,3 +1,5 @@
+// loaded mongoose,express,morgan into the file
+
 const mongoose = require("mongoose");
 const Models = require("./model.js");
 
@@ -6,13 +8,13 @@ const Users = Models.User;
 
 const Actors = Models.Actor;
 
+////connecting to the online database on mongodb.com
 mongoose.connect("mongodb://localhost:27017/myFlixDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
 
 const cors = require("cors");
-app.use(cors());
 const bodyParser = require("body-parser");
 const express = require("express");
 const morgan = require("morgan");
@@ -22,10 +24,12 @@ app.use(bodyParser.json());
 let auth = require("./auth.js")(app);
 const passport = require("passport");
 require("./passport");
+// With express(), call the middleware layer express.static that looks for the "public" folder and routes all requests to this folder to check if for example a file is availabe
 app.use(express.static("public"));
-
+app.use(cors());
+// Morgan is the middleware layer  that uses the common parameter to log data such as IP address, time of request and request method.
 app.use(morgan("common"));
-
+////Another middleware layer that will run on all requests and check for errors
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something Broke");
@@ -279,7 +283,7 @@ app.get("/documentation", (req, res) => {
   res.sendFile("public/documentation.html", { root: __dirname });
 });
 
-//Hosting the app via PaaS(Heroku)
+//Hosting the app via PaaS(Heroku).If pre-configured port number is unavailabale, it sets to 0.0.0.0
 const port = process.env.port || 8080;
 app.listen(port, "0.0.0.0", () => {
   console.log("Listening on Port" + port);
