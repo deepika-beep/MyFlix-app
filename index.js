@@ -19,6 +19,7 @@ const bodyParser = require("body-parser");
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
+const { check, validationResult } = require("express-validator");
 app.use(bodyParser.json());
 //app ensures that Express is available in  “auth.js” file as well.
 let auth = require("./auth.js")(app);
