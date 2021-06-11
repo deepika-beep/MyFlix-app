@@ -8,12 +8,16 @@ const Users = Models.User;
 
 const Actors = Models.Actor;
 
-////connecting to the online database on mongodb.com
-mongoose.connect("mongodb://localhost:27017/myFlixDB", {
+//connecting to the localhost DB
+// mongoose.connect("mongodb://localhost:27017/myFlixDB", {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// });
+//connecting to the online database on mongodb.com
+mongoose.connect("process.env.CONNECTION_URI", {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
-
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const express = require("express");
