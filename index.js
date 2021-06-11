@@ -287,7 +287,7 @@ app.get("/documentation", (req, res) => {
 });
 
 //Hosting the app via PaaS(Heroku).If pre-configured port number is unavailabale, it sets to 0.0.0.0
-const port = process.env.port || 8080;
+const port = process.env.PORT || 8080;
 app.listen(port, "0.0.0.0", () => {
-  console.log("Listening on Port" + port);
+  console.log("Listening on Port " + port);
 });
