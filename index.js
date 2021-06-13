@@ -8,16 +8,16 @@ const Users = Models.User;
 
 const Actors = Models.Actor;
 
-//connecting to the localhost DB
-// mongoose.connect("mongodb://localhost:27017/myFlixDB", {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true
-// });
-//connecting to the online database on mongodb.com
-mongoose.connect("process.env.CONNECTION_URI", {
+// connecting to the localhost DB
+mongoose.connect("mongodb://localhost:27017/myFlixDB", {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
+//connecting to the online database on mongodb.com
+// mongoose.connect("process.env.CONNECTION_URI", {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// });
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const express = require("express");
@@ -291,3 +291,4 @@ const port = process.env.PORT || 8080;
 app.listen(port, "0.0.0.0", () => {
   console.log("Listening on Port " + port);
 });
+//mongoimport --uri mongodb+srv://test-user88:Dzj8fmqj25DapZD@cluster0.clkrt.mongodb.net/myFlixDB --collection movies --type json --file exported_collections/movieexport.json
