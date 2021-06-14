@@ -9,10 +9,10 @@ const Users = Models.User;
 const Actors = Models.Actor;
 
 // connecting to the localhost DB
-// mongoose.connect("mongodb://localhost:27017/myFlixDB", {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true
-// });
+mongoose.connect("mongodb://localhost:27017/myFlixDB", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 // connecting to the online database on mongodb.com. connection URI will never be exposed in the “index.js” file.
 mongoose.connect("CONNECTION_URI", {
   useNewUrlParser: true,
@@ -308,4 +308,4 @@ const port = process.env.PORT || 8080;
 app.listen(port, "0.0.0.0", () => {
   console.log("Listening on Port " + port);
 });
-//mongoimport --uri mongodb+srv://test-user88:Dzj8fmqj25DapZD@cluster0.clkrt.mongodb.net/myFlixDB --collection movies --type json --file exported_collections/movieexport.json
+//mongoimport --uri mongodb+srv://test-user88:K4C2vOVv7XU9Ag8o@cluster0.clkrt.mongodb.net/myFlixDB --collection users --type json --file exported_collections/usersexport.json
