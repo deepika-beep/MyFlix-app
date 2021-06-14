@@ -18,6 +18,7 @@ mongoose.connect("CONNECTION_URI", {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
+//cors allow all domains to make requests to your API.
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const express = require("express");
@@ -196,8 +197,24 @@ app.get(
 //PUT request updating user info
 app.put(
   "/users/:Username",
-  passport.authenticate("jwt", { session: false }),
+  [
+    check("Username", "Username is required").isLength({ min: 5 }),
+    check(
+      "Username",
+      "Username should contain only alphanumeric values"
+    ).isAlphanumeric(),
+    check("password", "password is required")
+      .not()
+      .isEmpty(),
+    check("Email", "Email does not appeared to be valid").isEmail()
+  ],
   (req, res) => {
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+      let hashedPassword = Users.hashPassword(req.body.password);
+    }
+
     Users.findOneAndUpdate(
       { Username: req.params.Username },
       {
