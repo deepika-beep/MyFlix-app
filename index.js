@@ -6,7 +6,7 @@ const Models = require("./model.js");
 const Movies = Models.Movie;
 const Users = Models.User;
 
-const Actors = Models.Actor;
+// const Actors = Models.Actor;
 
 // connecting to the localhost DB
 mongoose.connect("mongodb://localhost:27017/myFlixDB", {
@@ -14,10 +14,10 @@ mongoose.connect("mongodb://localhost:27017/myFlixDB", {
   useUnifiedTopology: true
 });
 // connecting to the online database on mongodb.com. connection URI will never be exposed in the “index.js” file.
-mongoose.connect("CONNECTION_URI", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+// mongoose.connect("CONNECTION_URI", {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true
+// });
 //cors allow all domains to make requests to your API.
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -42,7 +42,8 @@ app.use((err, req, res, next) => {
 });
 
 //GET request to display  data about all movies
-//apply the JWT authentication strategyfor registered users
+//Passport to implement basic HTTP authentication to log registered users into the application
+//JWT authentication for subsequent requests to API.
 app.get(
   "/movies",
   passport.authenticate("jwt", { session: false }),
@@ -100,20 +101,20 @@ app.get(
 );
 
 //GET request to display a Actor (by name)
-app.get(
-  "/Actor/:Name",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    Actors.findOne({ Name: req.params.Name })
-      .then(actor => {
-        res.json(actor);
-      })
-      .catch(err => {
-        console.error(err);
-        res.status(500).send("Error:" + err);
-      });
-  }
-);
+// app.get(
+//   "/Actor/:Name",
+//   passport.authenticate("jwt", { session: false }),
+//   (req, res) => {
+//     Actors.findOne({ Name: req.params.Name })
+//       .then(actor => {
+//         res.json(actor);
+//       })
+//       .catch(err => {
+//         console.error(err);
+//         res.status(500).send("Error:" + err);
+//       });
+//   }
+// );
 //POST request to create new user
 app.post(
   "/users",
