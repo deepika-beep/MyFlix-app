@@ -133,7 +133,7 @@ app.post(
   (req, res) => {
     //// Validation logic here for request
 
-    let errors = validationRequest(req);
+    let errors = validationResultt(req);
 
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
