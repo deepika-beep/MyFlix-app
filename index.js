@@ -17,7 +17,7 @@ const app = express();
 const { check, validationResult } = require("express-validator");
 app.use(bodyParser.json());
 //app ensures that Express is available in  “auth.js” file as well.
-let auth = require("./auth.js")(app);
+let auth = require("./auth")(app);
 const passport = require("passport");
 require("./passport");
 // With express(), call the middleware layer express.static that looks for the "public" folder and routes all requests to this folder to check if for example a file is availabe

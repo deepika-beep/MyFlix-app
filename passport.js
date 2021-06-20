@@ -36,6 +36,7 @@ passport.use(
     }
   )
 );
+// JWT authentication
 passport.use(
   new JWTStrategy(
     {
