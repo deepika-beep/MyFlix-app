@@ -199,8 +199,9 @@ app.get(
 //PUT request updating user info
 app.put(
   "/users/:Username",
+  passport.authenticate("jwt", { session: false }),
   [
-    check("Username", "Username is required").isLength({ min: 5 }),
+    (check("Username", "Username is required").isLength({ min: 5 }),
     check(
       "Username",
       "Username should contain only alphanumeric values"
@@ -208,21 +209,21 @@ app.put(
     check("password", "password is required")
       .not()
       .isEmpty(),
-    check("Email", "Email does not appeared to be valid").isEmail()
+    check("Email", "Email does not appeared to be valid").isEmail())
   ],
   (req, res) => {
     let errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
-      let hashedPassword = Users.hashPassword(req.body.password);
     }
+    let hashedPassword = Users.hashPassword(req.body.Password);
 
     Users.findOneAndUpdate(
       { Username: req.params.Username },
       {
         $set: {
           Username: req.body.Username,
-          Password: req.body.Password,
+          Password: hashedPassword,
           Birth_Date: req.body.Birth_Date,
           Email: req.body.Email
         }
@@ -306,7 +307,7 @@ app.get("/documentation", (req, res) => {
 });
 
 //Hosting the app via PaaS(Heroku).If pre-configured port number is unavailabale, it sets to 0.0.0.0
-const port = process.env.PORT || 6007;
+const port = process.env.PORT || 8080;
 app.listen(port, "0.0.0.0", () => {
   console.log("Listening on Port " + port);
 });
