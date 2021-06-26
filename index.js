@@ -47,11 +47,14 @@ mongoose.connect(process.env.CONNECTION_URI, {
 //JWT authentication for subsequent requests to API.
 app.get(
   "/movies",
-  passport.authenticate("jwt", { session: false }),
+  // passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Movies.find().then(movies => {
       res.status(201).json(movies);
-    });
+    }).catch(err=>{
+      console.error(err);
+      res.status(500).send('Error:' + err);
+    })
   }
 );
 //GET request to display a movie by title
