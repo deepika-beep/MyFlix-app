@@ -10,6 +10,7 @@ const Users = Models.User;
 
 //cors allow all domains to make requests to your API.
 const cors = require("cors");
+app.use(cors());
 const bodyParser = require("body-parser");
 const express = require("express");
 const morgan = require("morgan");
@@ -22,7 +23,7 @@ const passport = require("passport");
 require("./passport");
 // With express(), call the middleware layer express.static that looks for the "public" folder and routes all requests to this folder to check if for example a file is availabe
 app.use(express.static("public"));
-app.use(cors());
+
 // Morgan is the middleware layer  that uses the common parameter to log data such as IP address, time of request and request method.
 app.use(morgan("common"));
 ////Another middleware layer that will run on all requests and check for errors
@@ -47,7 +48,7 @@ mongoose.connect(process.env.CONNECTION_URI, {
 //JWT authentication for subsequent requests to API.
 app.get(
   "/movies",
-  // passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Movies.find().then(movies => {
       res.status(201).json(movies);
