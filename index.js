@@ -9,15 +9,15 @@ const Users = Models.User;
 const Actors = Models.Actor;
 
 // connecting to the localhost DB
-mongoose.connect("mongodb://localhost:27017/myFlixDB", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
-//connecting to the online database on mongodb.com
-// mongoose.connect("process.env.CONNECTION_URI", {
+// mongoose.connect("mongodb://localhost:27017/myFlixDB", {
 //   useNewUrlParser: true,
 //   useUnifiedTopology: true
 // });
+// connecting to the online database on mongodb.com. connection URI will never be exposed in the “index.js” file.
+mongoose.connect("CONNECTION_URI", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const express = require("express");
@@ -29,19 +29,26 @@ app.use(bodyParser.json());
 let auth = require("./auth.js")(app);
 const passport = require("passport");
 require("./passport");
-// With express(), call the middleware layer express.static that looks for the "public" folder and routes all requests to this folder to check if for example a file is availabe
 app.use(express.static("public"));
 app.use(cors());
-// Morgan is the middleware layer  that uses the common parameter to log data such as IP address, time of request and request method.
+
+// Middlewares
 app.use(morgan("common"));
-////Another middleware layer that will run on all requests and check for errors
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send("Something Broke");
 });
 
-//GET request to display  data about all movies
+
 //apply the JWT authentication strategyfor registered users
+
+/**
+ * Endpoints
+ */
+
+/**
+ * Endpoint that returns all the movies
+ */
 app.get(
   "/movies",
   passport.authenticate("jwt", { session: false }),
@@ -51,7 +58,9 @@ app.get(
     });
   }
 );
-//GET request to display a movie by title
+/**
+ * Endpoint that returns a movie by its title
+ */
 app.get(
   "/movies/:Title",
   passport.authenticate("jwt", { session: false }),
@@ -67,7 +76,9 @@ app.get(
   }
 );
 
-//GET request to display a genre (by name)
+/**
+ * Endpoint that returns details about a genre
+ */
 app.get(
   "/movies/Genre/:Name",
   passport.authenticate("jwt", { session: false }),
@@ -82,7 +93,9 @@ app.get(
       });
   }
 );
-//GET request to display a Director (by name)
+/**
+ * Endpoint that returns details about a director, by director's name
+ */
 app.get(
   "/movies/Director/:Name",
   passport.authenticate("jwt", { session: false }),
@@ -98,22 +111,9 @@ app.get(
   }
 );
 
-//GET request to display a Actor (by name)
-app.get(
-  "/Actor/:Name",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    Actors.findOne({ Name: req.params.Name })
-      .then(actor => {
-        res.json(actor);
-      })
-      .catch(err => {
-        console.error(err);
-        res.status(500).send("Error:" + err);
-      });
-  }
-);
-//POST request to create new user
+/**
+ * Endpoint to create a new account
+ */
 app.post(
   "/users",
   [
@@ -128,7 +128,7 @@ app.post(
     check("Email", "Email does not appear to be valid").isEmail()
   ],
   (req, res) => {
-    //// Validation logic here for request
+    // Validation logic here for request
 
     let errors = validationRequest(req);
 
@@ -178,7 +178,9 @@ app.get(
       });
   }
 );
-// GET request to get info on specific user by Username
+/**
+ * Endpoint that returns details about a user, by its username
+ */
 app.get(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
@@ -193,7 +195,9 @@ app.get(
       });
   }
 );
-//PUT request updating user info
+/**
+ * Endpoint where a user can update his details
+ */
 app.put(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
@@ -220,7 +224,9 @@ app.put(
     );
   }
 );
-// Add a movie to a user's list of favorites
+/**
+ * Endpoint that adds a movie to the list of favorite movies
+ */
 app.post(
   "/users/:Username/Favorites/:MovieID",
   passport.authenticate("jwt", { session: false }),
@@ -242,7 +248,10 @@ app.post(
     );
   }
 );
-//DELETE request for deleting a movie
+
+/**
+ * Endpoint that deletes a movie from the list of favorite movies
+ */
 app.delete(
   "/users/:Username/Favorites/:MovieID",
   passport.authenticate("jwt", { session: false }),
@@ -259,7 +268,9 @@ app.delete(
   }
 );
 
-// Delete a user by username
+/**
+ * Endpoint that deletes a user by its username
+ */
 app.delete(
   "/users/:Username",
   passport.authenticate("jwt", { session: false }),
@@ -291,4 +302,4 @@ const port = process.env.PORT || 8080;
 app.listen(port, "0.0.0.0", () => {
   console.log("Listening on Port " + port);
 });
-//mongoimport --uri mongodb+srv://test-user88:Dzj8fmqj25DapZD@cluster0.clkrt.mongodb.net/myFlixDB --collection movies --type json --file exported_collections/movieexport.json
+

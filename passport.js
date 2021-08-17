@@ -5,8 +5,10 @@ const passport = require("passport"),
 let Users = Models.User,
   JWTStrategy = passportJWT.Strategy,
   ExtractJWT = passportJWT.ExtractJwt;
-
-//added a Passport middleware to handle user registration:
+/**
+ * This strategy is used by the '/login' route.
+ * It checks if the username and password a user wants to authenticate with, exist in the database.
+ */
 passport.use(
   new LocalStrategy(
     {
@@ -36,6 +38,10 @@ passport.use(
     }
   )
 );
+/**
+ * This strategy is used for authorization.
+ * Here the user that makes the request is ckecked against the database using the user's id extracted from the JWT.
+ */
 passport.use(
   new JWTStrategy(
     {
