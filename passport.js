@@ -28,7 +28,7 @@ passport.use(
             message: "incorrect username or password"
           });
         }
-        if (!user.validatepassword(password)) {
+        if (!user.validatePassword(password)) {
           console.log("incorrect password");
           return callback(null, false, { message: "incorrect password" });
         }
@@ -38,10 +38,14 @@ passport.use(
     }
   )
 );
+
 /**
  * This strategy is used for authorization.
  * Here the user that makes the request is ckecked against the database using the user's id extracted from the JWT.
  */
+
+
+
 passport.use(
   new JWTStrategy(
     {
