@@ -29,8 +29,11 @@ featured or not) about a single movie by title to the user
 Project dependencies
 
 ● NodeJs
+
 ● Express
+
 ● Mongoose
+
 ● Passport
 
 Web services
